@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using TMPro;
 using UnityEngine.UI;
 
+
 // using BbLearnContext;
 // App Key: b6e3a41f-b2f4-4735-9ba2-f9315dc76dcd
 // Secret: We9c2aL4kstQnZO50Au0cF4zruPzXJFX
@@ -19,22 +20,29 @@ using UnityEngine.UI;
 // Application ID: 0fb259d8-8a7b-4943-a6d2-6910f4fcded2
 // Basic YjZlM2E0MWYtYjJmNC00NzM1LTliYTItZjkzMTVkYzc2ZGNkOldlOWMyYUw0a3N0UW5aTzUwQXUwY0Y0enJ1UHpYSkZY
 
-public class BbRestLearnAPI : MonoBehaviour {
+public class BbRestLearnAPI : MonoBehaviour
+{
     public string url = "https://ada-staging.blackboard.com";
     public string appKey = "fa5893df-6b24-49bd-aa0b-a37feabdeb0e";
     public string appSecret = "eCMvFEVmJTjAXgIBev34DefBW5RY0a4j";
     TokenManager tm;
     BbLearnDelegation bbld;
-    [ContextMenu("Test Get Token")]
+    public TMP_Text courseNameText;
+    private string courseName;
+    
 
-    private void Awake () {
+
+
+    private void Awake()
+    {
         Debug.Log("Getting Token Manager.....");
         tm = GetComponent<TokenManager>();
         bbld = GetComponent<BbLearnDelegation>();
         TestGetToken();
     }
 
-    public async void TestGetToken() {
+    public async void TestGetToken()
+    {
         Debug.Log("Testing call.....");
         var auth = System.Convert.ToBase64String(
             System.Text.Encoding.Default.GetBytes(
@@ -52,30 +60,36 @@ public class BbRestLearnAPI : MonoBehaviour {
 
         var operation = www.SendWebRequest();
 
-        while (!operation.isDone) {
+        while (!operation.isDone)
+        {
             await Task.Yield();
         }
 
-        if (www.result != UnityWebRequest.Result.Success) {
+        if (www.result != UnityWebRequest.Result.Success)
+        {
             Debug.Log($"Failed: {www.error}");
         }
 
         var jsonResponse = www.downloadHandler.text;
         Debug.Log(jsonResponse);
         BbAuthContext result = new BbAuthContext();
-        try {
+        try
+        {
             result = JsonConvert.DeserializeObject<BbAuthContext>(jsonResponse);
             Debug.Log($"Success: {www.downloadHandler.text}");
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Debug.Log($"{this} could not parse json {jsonResponse}. {ex.Message}");
         }
 
-        if (result.access_token != "") {
+        if (result.access_token != "")
+        {
             tm.setExpiresIn(result.expires_in);
         }
 
 
-        // TEST
+        //TEST
 
         using var www2 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/announcements");
         www2.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
@@ -83,24 +97,30 @@ public class BbRestLearnAPI : MonoBehaviour {
 
         operation = www2.SendWebRequest();
 
-        while (!operation.isDone) {
+        while (!operation.isDone)
+        {
             await Task.Yield();
         }
 
-        if (www2.result != UnityWebRequest.Result.Success) {
+        if (www2.result != UnityWebRequest.Result.Success)
+        {
             Debug.Log($"Failed: {www.error}");
         }
         jsonResponse = www2.downloadHandler.text;
-        try {
+        try
+        {
             Debug.Log($"Success: {www2.downloadHandler.text}");
 
             var contentItems = JsonConvert.DeserializeObject<BbContentItems>(jsonResponse);
-            foreach (var item in contentItems.results) {
+            foreach (var item in contentItems.results)
+            {
                 bbld.CreateSpawn();
             }
 
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Debug.Log(ex.Message);
         }
 
@@ -119,13 +139,16 @@ public class BbRestLearnAPI : MonoBehaviour {
         {
             Debug.Log($"Failed: {www.error}");
         }
-     
+
         jsonResponse = www3.downloadHandler.text;
         try
         {
             Class1 cn = JsonUtility.FromJson<Class1>(jsonResponse);
-            Debug.Log($"Course name: {cn.name}");
-           
+            //Debug.Log($"Course name: {cn.name}");
+            courseName = cn.name;
+            courseNameText.text = courseName;
+            
+
         }
         catch (Exception ex)
         {
