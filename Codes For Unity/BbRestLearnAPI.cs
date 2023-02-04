@@ -28,8 +28,10 @@ public class BbRestLearnAPI : MonoBehaviour
     TokenManager tm;
     BbLearnDelegation bbld;
     public TMP_Text courseNameText;
+    public TMP_Text availableText;
     private string courseName;
-    
+    private string available;
+
 
 
 
@@ -83,10 +85,10 @@ public class BbRestLearnAPI : MonoBehaviour
             Debug.Log($"{this} could not parse json {jsonResponse}. {ex.Message}");
         }
 
-        if (result.access_token != "")
+       /* if (result.access_token != "")
         {
             tm.setExpiresIn(result.expires_in);
-        }
+        }*/
 
 
         //TEST
@@ -108,8 +110,9 @@ public class BbRestLearnAPI : MonoBehaviour
         }
         jsonResponse = www2.downloadHandler.text;
         try
-        {
-            Debug.Log($"Success: {www2.downloadHandler.text}");
+        { 
+            AnnouncementList a = JsonUtility.FromJson<AnnouncementList>(jsonResponse);
+            Debug.Log($"Announcement title: {a.results[0].title}");
 
             var contentItems = JsonConvert.DeserializeObject<BbContentItems>(jsonResponse);
             foreach (var item in contentItems.results)
@@ -143,11 +146,14 @@ public class BbRestLearnAPI : MonoBehaviour
         jsonResponse = www3.downloadHandler.text;
         try
         {
-            Class1 cn = JsonUtility.FromJson<Class1>(jsonResponse);
-            //Debug.Log($"Course name: {cn.name}");
+            Course cn = JsonUtility.FromJson<Course>(jsonResponse);
+            Debug.Log($"Course name: {cn.name}");
+            Debug.Log($"Course availability: {cn.availability.available}");
+            //Debug.Log($"Announcement title: {a.title}");
             courseName = cn.name;
             courseNameText.text = courseName;
-            
+            available = cn.availability.available;
+            availableText.text = available;
 
         }
         catch (Exception ex)
