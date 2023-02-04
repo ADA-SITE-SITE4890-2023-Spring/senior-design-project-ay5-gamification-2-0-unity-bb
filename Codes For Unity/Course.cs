@@ -1,6 +1,6 @@
 [System.Serializable]
 
-public class Class1
+public class Course
 {
 	public string name;
 }
