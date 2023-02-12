@@ -10,28 +10,24 @@ using TMPro;
 using UnityEngine.UI;
 
 
-// using BbLearnContext;
-// App Key: b6e3a41f-b2f4-4735-9ba2-f9315dc76dcd
-// Secret: We9c2aL4kstQnZO50Au0cF4zruPzXJFX
-// Application ID: bc4bf3fe-e7f8-4541-b36b-abfcf1cdc98f
-
-// App Key: 471af468-b2ed-4d92-ae3c-6259f8e7a01c
-// Secret: S9d5H19BYUgPm6ddmM7PAW5yFMAF6EmE
-// Application ID: 0fb259d8-8a7b-4943-a6d2-6910f4fcded2
-// Basic YjZlM2E0MWYtYjJmNC00NzM1LTliYTItZjkzMTVkYzc2ZGNkOldlOWMyYUw0a3N0UW5aTzUwQXUwY0Y0enJ1UHpYSkZY
-
 public class BbRestLearnAPI : MonoBehaviour
 {
     public string url = "https://ada-staging.blackboard.com";
     public string appKey = "fa5893df-6b24-49bd-aa0b-a37feabdeb0e";
     public string appSecret = "eCMvFEVmJTjAXgIBev34DefBW5RY0a4j";
+
     TokenManager tm;
     BbLearnDelegation bbld;
-    public TMP_Text courseNameText;
-    public TMP_Text announcementNameText;
-    private string courseName;
-    private string announcementName;
-    
+
+    //public TMP_Text courseNameText;
+    //public TMP_Text availableText;
+    public TMP_Text AnnName;
+    //public TMP_Text AnnBody;
+    //private string courseName;
+    //private string available;
+    private string Ann_Name;
+    //private string Ann_Body;
+    AnnouncementList al;
 
 
 
@@ -85,10 +81,10 @@ public class BbRestLearnAPI : MonoBehaviour
             Debug.Log($"{this} could not parse json {jsonResponse}. {ex.Message}");
         }
 
-        if (result.access_token != "")
-        {
-            tm.setExpiresIn(result.expires_in);
-        }
+        /* if (result.access_token != "")
+         {
+             tm.setExpiresIn(result.expires_in);
+         }*/
 
 
         //TEST
@@ -111,54 +107,26 @@ public class BbRestLearnAPI : MonoBehaviour
         jsonResponse = www2.downloadHandler.text;
         try
         {
-            Debug.Log($"Success: {www2.downloadHandler.text}");
+            AnnouncementList a = JsonUtility.FromJson<AnnouncementList>(jsonResponse);
+            Debug.Log($"Announcement title: {a.results[0].title}");
 
-            Course announcement = JsonConvert.DeserializeObject<Course>(jsonResponse);
-            
-            Debug.Log($"Announcements: {announcement.title}");
-            announcementName = announcement.title;
-            announcementNameText.text = announcementName;
+            string allTitles = "";
+            foreach (Announcement announcement in a.results)
+            {
+                // Concatenate the title of each announcement to a single string
+                allTitles += announcement.title + "\n";
+            }
 
-            //foreach (var item in contentItems.results)
-            //{
-            //    bbld.CreateSpawn();
-            //}
+            // Set the text of AnnName to the concatenated string of all titles
+            AnnName.text = allTitles;
 
 
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex.Message);
-        }
 
-        using var www3 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20");
-        www3.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
-        www3.SetRequestHeader("Content-Type", "application/json");
-
-        operation = www3.SendWebRequest();
-
-        while (!operation.isDone)
-        {
-            await Task.Yield();
-        }
-
-        if (www3.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log($"Failed: {www.error}");
-        }
-
-        jsonResponse = www3.downloadHandler.text;
-        try
-        {
-            Course cn = new Course();
-            
-            cn = JsonUtility.FromJson<Course>(jsonResponse);
-
-            Debug.Log($"Availability {cn.availability.available}");
-            Debug.Log($"Duration Type:   {cn.availability.duration.type}");
-            Debug.Log($"Course name: {cn.name}");
-            courseName = cn.name;
-            courseNameText.text = courseName;
+            var contentItems = JsonConvert.DeserializeObject<BbContentItems>(jsonResponse);
+            foreach (var item in contentItems.results)
+            {
+                bbld.CreateSpawn();
+            }
 
 
         }
@@ -166,5 +134,9 @@ public class BbRestLearnAPI : MonoBehaviour
         {
             Debug.Log(ex.Message);
         }
+
+
+
+       
     }
 }
