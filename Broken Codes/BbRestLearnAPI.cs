@@ -114,7 +114,12 @@ public class BbRestLearnAPI : MonoBehaviour
             foreach (Announcement announcement in a.results)
             {
                 // Concatenate the title of each announcement to a single string
-                allTitles += announcement.title + "\n";
+                //allTitles += announcement.title + "\n";
+
+                string announcementText = announcement.title + "\n" + announcement.body + "\n";
+                allTitles += announcementText;
+                // Set the TextMeshPro text field with the announcement title and body
+                //AnnName.text += announcementText + "\n\n";
             }
 
             // Set the text of AnnName to the concatenated string of all titles
