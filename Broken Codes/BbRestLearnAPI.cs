@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using TMPro;
+
 using UnityEngine.UI;
 
 
@@ -18,16 +19,15 @@ public class BbRestLearnAPI : MonoBehaviour
 
     TokenManager tm;
     BbLearnDelegation bbld;
-
+    AnnouncementList al;
+    CourseContentList cl;
     //public TMP_Text courseNameText;
     //public TMP_Text availableText;
     public TMP_Text AnnName;
-    //public TMP_Text AnnBody;
+    public TMP_Text CourseContentName;
     //private string courseName;
-    //private string available;
-    private string Ann_Name;
-    //private string Ann_Body;
-    AnnouncementList al;
+
+    
 
 
 
@@ -81,10 +81,10 @@ public class BbRestLearnAPI : MonoBehaviour
             Debug.Log($"{this} could not parse json {jsonResponse}. {ex.Message}");
         }
 
-        /* if (result.access_token != "")
-         {
-             tm.setExpiresIn(result.expires_in);
-         }*/
+        //if (result.access_token != "")
+        //{
+        //    tm.setExpiresIn(result.expires_in);
+        //}
 
 
         //TEST
@@ -113,19 +113,11 @@ public class BbRestLearnAPI : MonoBehaviour
             string allTitles = "";
             foreach (Announcement announcement in a.results)
             {
-                // Concatenate the title of each announcement to a single string
-                //allTitles += announcement.title + "\n";
-
-                string announcementText = announcement.title + "\n" + announcement.body + "\n";
+                string announcementText = "<b>" + announcement.title + "</b>" + "\n" + announcement.body + "\n";
                 allTitles += announcementText;
-                // Set the TextMeshPro text field with the announcement title and body
-                //AnnName.text += announcementText + "\n\n";
             }
 
-            // Set the text of AnnName to the concatenated string of all titles
             AnnName.text = allTitles;
-
-
 
             var contentItems = JsonConvert.DeserializeObject<BbContentItems>(jsonResponse);
             foreach (var item in contentItems.results)
@@ -141,7 +133,65 @@ public class BbRestLearnAPI : MonoBehaviour
         }
 
 
+        using var www3 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/contents/_202502_1/children");
+        www3.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
+        www3.SetRequestHeader("Content-Type", "application/json");
 
-       
+        operation = www3.SendWebRequest();
+
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
+
+        if (www3.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log($"Failed: {www.error}");
+        }
+
+        jsonResponse = www3.downloadHandler.text;
+        try
+        {
+            CourseContentList c = JsonUtility.FromJson<CourseContentList>(jsonResponse);
+
+            string allTitles1 = "";
+            foreach (CourseContent coursecontents in c.results)
+            {
+                string courseText = "<b>" + coursecontents.title + "</b>" + "\n";
+                allTitles1 += courseText;
+            }
+
+            CourseContentName.text = allTitles1;
+
+
+
+
+
+
+            //CourseContentName.text = "";
+            //foreach (CourseContent coursecontents in c.results)
+            //{
+            //    string courseText = $"<link={coursecontents.url}><b>{coursecontents.title}</b></link>\n";
+            //    CourseContentName.text += courseText;
+            //}
+
+            //// Attach the CourseContentLink component to each link
+            //foreach (TMP_LinkInfo linkInfo in CourseContentName.textInfo.linkInfo)
+            //{
+            //    GameObject linkGO = new GameObject("CourseContentLink");
+            //    var link = linkGO.AddComponent<CourseContentLink>();
+            //    link.SetLinkData(linkInfo.GetLinkID(), linkInfo.GetLinkText(), linkInfo.GetLinkID());
+            //    linkGO.transform.SetParent(CourseContentName.transform, false);
+            //    RectTransform rect = linkGO.GetComponent<RectTransform>();
+            //    rect.anchoredPosition = linkInfo.GetLinkRect().position;
+            //}
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
+
     }
+
 }
