@@ -160,4 +160,35 @@ public class GroupList
     public List<Group> results;
 }
 
+[System.Serializable]
+public class Meeting
+{
+    public int id;
+    public string courseId;
+    public string start;
+    public string end;
+}
 
+
+[System.Serializable]
+public class MeetingList
+{
+    public List<Meeting> results;
+}
+
+
+[System.Serializable]
+public class Attendance
+{
+    public int id;
+    public string meetingId;
+    public string userId;
+    public string status;
+}
+
+
+[System.Serializable]
+public class AttendanceList
+{
+    public List<Attendance> results;
+}
