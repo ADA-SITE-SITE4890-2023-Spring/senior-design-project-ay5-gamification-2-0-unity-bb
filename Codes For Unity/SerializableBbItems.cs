@@ -192,3 +192,21 @@ public class AttendanceList
 {
     public List<Attendance> results;
 }
+
+[Serializable]
+public class CalendarEvent
+{
+    public string id;
+    public string type;
+    public string calendarId;
+    public string calendarName;
+    public string title;
+    public string description;
+    public string location;
+    public DateTime start;
+    public DateTime end;
+    public DateTime modified;
+    public string color;
+    public bool disableResizing;
+    public string createdByUserId;
+}
