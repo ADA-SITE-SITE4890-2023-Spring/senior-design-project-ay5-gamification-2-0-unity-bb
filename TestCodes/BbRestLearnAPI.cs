@@ -8,33 +8,41 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine.UI;
-
+using Newtonsoft.Json.Linq;
 
 public class BbRestLearnAPI : MonoBehaviour
 {
     public string url = "https://ada-staging.blackboard.com";
     public string appKey = "fa5893df-6b24-49bd-aa0b-a37feabdeb0e";
     public string appSecret = "eCMvFEVmJTjAXgIBev34DefBW5RY0a4j";
+    private WebClient client;
+    public string downloadsFolder = "C:\\Users\\aliza\\Downloads";
+
 
 
     //Serializable Contents to send and store information
-        TokenManager tm;
-        BbLearnDelegation bbld;
-        GroupList glist;
+    TokenManager tm;
+    BbLearnDelegation bbld;
+    GroupList glist;
+
 
     //TextMeshPros
-        public TMP_Text CourseName;
-        //public TMP_Text availableText;
-        public TMP_Text AnnnouncementName;
-        public TMP_Text CourseContentName;
-        public TMP_Text GroupName;
-        public TMP_Dropdown dropdown;
-        private MeetingList meetingList1;
+    public TMP_Text CourseName;
+    //public TMP_Text availableText;
+    public TMP_Text AnnnouncementName;
+    public TMP_Text CourseContentName;
+    public TMP_Text GroupName;
+    public TMP_Text CalendarName;
+    public TMP_Dropdown dropdown;
+    public TMP_Text AttendanceName;
+    public MeetingList meetingList1;
 
     //variables to hold needed details
     private string courseName;
-        //private string available;
-        private string groupName;
+    //private string available;
+    private string groupName;
+    private string calendarCName;
+
 
 
     private void Awake()
@@ -161,14 +169,6 @@ public class BbRestLearnAPI : MonoBehaviour
         {
             CourseContentList c = JsonUtility.FromJson<CourseContentList>(jsonResponse);
 
-            //string allTitles1 = "";
-            //foreach (CourseContent coursecontents in c.results)
-            //{
-            //    string courseText = "<b><color=blue>" + coursecontents.title + "</color></b>" + "\n";
-            //    allTitles1 += courseText;
-            //}
-            //CourseContentName.text = allTitles1;
-
             CourseContentName.text = "";
             foreach (CourseContent coursecontents in c.results)
             {
@@ -185,6 +185,32 @@ public class BbRestLearnAPI : MonoBehaviour
                 linkGO.transform.SetParent(CourseContentName.transform, false);
                 RectTransform rect = linkGO.GetComponent<RectTransform>();
             }
+            
+            
+                var json = JsonConvert.DeserializeObject(jsonResponse) as JObject;
+                var results = json["results"];
+
+                foreach (var obj in results)
+                {
+                    var links = obj["links"];
+
+                    foreach (var link in links)
+                    {
+                        var href = link["href"].ToString();
+                        var fileName = Path.GetFileName(href);
+                        var filePath = Path.Combine(Application.persistentDataPath, fileName);
+
+                        Debug.Log("Downloading " + href + " to " + filePath);
+
+                        using var client = new WebClient();
+                        client.DownloadFile(href, filePath);
+                    }
+                }
+
+                Debug.Log("Downloads complete");
+
+
+
 
         }
         catch (Exception ex)
@@ -201,31 +227,31 @@ public class BbRestLearnAPI : MonoBehaviour
 
         while (!operation.isDone)
         {
-                await Task.Yield();
+            await Task.Yield();
         }
 
         if (www3.result != UnityWebRequest.Result.Success)
         {
-                Debug.Log($"Failed: {www.error}");
+            Debug.Log($"Failed: {www.error}");
         }
 
-            jsonResponse = www3.downloadHandler.text;
-            try
-            {
-                Course cn = JsonUtility.FromJson<Course>(jsonResponse);
-                Debug.Log($"Course name: {cn.name}");
-                Debug.Log($"Course availability: {cn.availability.available}");
-                //Debug.Log($"Announcement title: {a.title}");
-                courseName = cn.name;
-                CourseName.text = courseName;
-                //available = cn.availability.available;
+        jsonResponse = www3.downloadHandler.text;
+        try
+        {
+            Course cn = JsonUtility.FromJson<Course>(jsonResponse);
+            Debug.Log($"Course name: {cn.name}");
+            //Debug.Log($"Course availability: {cn.availability.available}");
+            //Debug.Log($"Announcement title: {a.title}");
+            courseName = cn.name;
+            CourseName.text = courseName;
+            //available = cn.availability.available;
 
 
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
 
 
 
@@ -260,26 +286,67 @@ public class BbRestLearnAPI : MonoBehaviour
             Debug.Log(ex.Message);
         }
 
-
-        using var www6 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/meetings");
+        // CALENDAR ITEMS
+        using var www6 = UnityWebRequest.Get($"{url}/learn/api/public/v1/calendars/items");
         www6.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
         www6.SetRequestHeader("Content-Type", "application/json");
 
         operation = www6.SendWebRequest();
 
+
+
         while (!operation.isDone)
         {
             await Task.Yield();
         }
-        if (www.result != UnityWebRequest.Result.Success)
+        if (www6.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log($"Failed: {www.error}");
+            Debug.Log($"Failed: {www6.error}");
         }
-        
-        jsonResponse = www.downloadHandler.text;
+
+        jsonResponse = www6.downloadHandler.text;
         Debug.Log(jsonResponse);
 
-        meetingList1 = JsonUtility.FromJson<MeetingList>(jsonResponse);
+        try
+        {
+            CalendarList cl = JsonUtility.FromJson<CalendarList>(jsonResponse);
+
+            //if yada while to check if there are items and if yes show if not dont show.
+
+            string allTitles = "";
+            foreach (CalendarEvent cal in cl.results)
+            {
+                string calendarText = "<b>" + cal.title + "</b>" + "\n" + cal.description + "\n";
+                allTitles += calendarText;
+            }
+            CalendarName.text = allTitles;
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
+
+        // ATTENDANCE
+        using var www7 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/meetings");
+        www7.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
+        www7.SetRequestHeader("Content-Type", "application/json");
+
+        operation = www7.SendWebRequest();
+
+
+
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
+        if (www7.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log($"Failed: {www7.error}");
+        }
+
+        jsonResponse = www7.downloadHandler.text;
+        Debug.Log(jsonResponse);
+        MeetingList meetingList1 = JsonUtility.FromJson<MeetingList>(jsonResponse);
         try
         {
             if (meetingList1 != null)
@@ -287,8 +354,9 @@ public class BbRestLearnAPI : MonoBehaviour
                 List<string> startTimes = new List<string>();
                 foreach (Meeting meeting in meetingList1.results)
                 {
-                    startTimes.Add(meeting.start);
                     Debug.Log($"Meeting Date: {meeting.start}");
+                    startTimes.Add(meeting.start);
+                    //Debug.Log($"Meeting Date: {meeting.start}");
                 }
                 dropdown.ClearOptions();
                 dropdown.AddOptions(startTimes);
@@ -297,6 +365,7 @@ public class BbRestLearnAPI : MonoBehaviour
                 // Set the dropdown's label text to the selected option
                 dropdown.onValueChanged.AddListener(delegate
                 {
+                    UpdateStatusText(result);
                     SetLabel();
                 });
                 SetLabel();
@@ -310,7 +379,7 @@ public class BbRestLearnAPI : MonoBehaviour
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.Log(ex.Message);
 
@@ -318,62 +387,198 @@ public class BbRestLearnAPI : MonoBehaviour
 
     }
 
-    
-    // Start is called before the first frame update
-    //void Start()
-    //{
-    //    TestGetMeetings();
-    //}
-    //public async void TestGetMeetings()
-    //{
-    //    BbAuthContext result = new BbAuthContext();
-        
-        //using var www = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/meetings");
-        //www.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
-        //www.SetRequestHeader("Content-Type", "application/json");
-        //var operation = www.SendWebRequest();
-        //while (!operation.isDone)
-        //{
-        //    await Task.Yield();
-        //}
-        //if (www.result != UnityWebRequest.Result.Success)
-        //{
-        //    Debug.Log($"Failed: {www.error}");
-        //}
-        //var jsonResponse = www.downloadHandler.text;
-        //Debug.Log(jsonResponse);
-        //meetingList = JsonUtility.FromJson<MeetingList>(jsonResponse);
-        //if (meetingList != null)
-        //{
-        //    List<string> startTimes = new List<string>();
-        //    foreach (Meeting meeting in meetingList.results)
-        //    {
-        //        startTimes.Add(meeting.start);
-        //    }
-        //    dropdown.ClearOptions();
-        //    dropdown.AddOptions(startTimes);
-        //    // Select the first option by default
-        //    dropdown.value = 0;
-        //    // Set the dropdown's label text to the selected option
-        //    dropdown.onValueChanged.AddListener(delegate {
-        //        SetLabel();
-        //    });
-        //    SetLabel();
-        //}
-        //void SetLabel()
-        //{
-        //    if (dropdown.options.Count > 0)
-        //    {
-        //        string selectedOption = dropdown.options[dropdown.value].text;
-        //        dropdown.GetComponentInChildren<TextMeshProUGUI>().text = selectedOption;
-        //    }
-        //}
+    private async void UpdateStatusText(BbAuthContext result)
+    {
+
+
+        if (dropdown.options.Count == 0)
+        {
+            // The dropdown list is empty
+            AttendanceName.text = "No meetings available";
+            return;
+        }
+
+        int selectedIndex = dropdown.value;
+
+        if (selectedIndex < 0 || selectedIndex >= dropdown.options.Count)
+        {
+            // The selected index is out of range
+            AttendanceName.text = "Invalid selection";
+            return;
+        }
+
+        string selectedMeeting = dropdown.options[selectedIndex].text;
+
+        using var www = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/meetings/users/_17978_1");
+        www.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
+        www.SetRequestHeader("Content-Type", "application/json");
+
+        var operation = www.SendWebRequest();
+
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log($"Failed: {www.error}");
+            AttendanceName.text = "Failed to get status";
+            return;
+        }
+
+        var jsonResponse = www.downloadHandler.text;
+        Debug.Log(jsonResponse);
+
+        AttendanceList statusResponse = JsonUtility.FromJson<AttendanceList>(jsonResponse);
+
+        if (statusResponse == null || statusResponse.results.Count == 0)
+        {
+            // No status information available
+            AttendanceName.text = "No status available";
+            return;
+        }
+
+        if (meetingList1 != null && meetingList1.results != null)
+        {
+            foreach (Meeting meeting in meetingList1.results)
+            {
+                Debug.Log($"Meeting Date: {meeting.start}");
+            }
+        }
+        else
+        {
+            Debug.Log("Meeting list is empty");
+        }
+
+
+        // Search for the user's attendance status
+        Attendance userStatus = statusResponse.results.Find(status =>
+        {
+            Debug.Log($"MeetingId: {status.meetingId}, SelectedMeeting: {selectedMeeting}");
+            Meeting meeting = null;
+            if (meetingList1 != null && meetingList1.results != null)
+            {
+                meeting = meetingList1.results.Find(m => m.id.ToString() == status.meetingId && m.start.Equals(selectedMeeting));
+
+            }
+            return meeting != null;
+        });
+
+
+
+
+
+
+
+        /*if (userStatus != null)
+        {
+            Debug.Log($"Selected meeting: {selectedMeeting}");
+            Debug.Log($"User status: {userStatus.status}");
+            AttendanceName.text = $"User status: {userStatus.status}";
+
+        }
+        else
+        {
+            Debug.Log($"Selected meeting: {selectedMeeting}");
+            Debug.Log("User did not attend this meeting");
+            AttendanceName.text = "User did not attend this meeting";
+            //AttendanceName.text = "User did not attend this meeting";
+        }*/
+        if (userStatus != null)
+        {
+            Debug.Log($"UserStatus: {userStatus.status}");
+            AttendanceName.text = $"User status: {userStatus.status}";
+        }
+        else
+        {
+            Debug.Log($"Selected meeting: {selectedMeeting}");
+            Debug.Log("Meeting IDs in attendance list:");
+            foreach (var status in statusResponse.results)
+            {
+                Debug.Log($"- {status.meetingId}");
+            }
+            AttendanceName.text = "User did not attend this meeting";
+
+
+            using var www8 = UnityWebRequest.Get($"{url}/learn/api/public/v1/courses/courseId:GAME20/contents/:contentId/children");
+            www8.SetRequestHeader("Authorization", $"Bearer {result.access_token}");
+            www8.SetRequestHeader("Content-Type", "application/json");
+
+            operation = www8.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
+            if (www8.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log($"Failed: {www8.error}");
+            }
+
+            jsonResponse = www8.downloadHandler.text;
+            Debug.Log(jsonResponse);
+
+            //try
+            //{
+
+            //    var json = JsonConvert.DeserializeObject(jsonResponse) as JObject;
+            //    var results = json["results"];
+
+            //    foreach (var obj in results)
+            //    {
+            //        var links = obj["links"];
+
+            //        foreach (var link in links)
+            //        {
+            //            var href = link["href"].ToString();
+            //            var fileName = Path.GetFileName(href);
+            //            var filePath = Path.Combine(Application.persistentDataPath, fileName);
+
+            //            Debug.Log("Downloading " + href + " to " + filePath);
+
+            //            using var client = new WebClient();
+            //            client.DownloadFile(href, filePath);
+            //        }
+            //    }
+
+            //    Debug.Log("Downloads complete");
+
+            //}
+            //catch(Exception ex)
+            //{
+            //    Debug.Log(ex.Message);
+            //}
+        }
     }
+}
 
 
-    //public void OnTitleClicked()
-    //{
-    //    Application.OpenURL("https://developer.blackboard.com");
-    //}
+    
+
+
+//        // Set the dropdown's label text to the selected option
+//        dropdown.onValueChanged.AddListener(delegate
+//        {
+//            SetLabel();
+//        });
+//        SetLabel();
+//    }
+//    void SetLabel()
+//    {
+//        if (dropdown.options.Count > 0)
+//        {
+//            string selectedOption = dropdown.options[dropdown.value].text;
+//            dropdown.GetComponentInChildren<TextMeshProUGUI>().text = selectedOption;
+//        }
+//    }
+//}
+
+
+
+//public void OnTitleClicked()
+//{
+//    Application.OpenURL("https://developer.blackboard.com");
+//}
 //}
 
