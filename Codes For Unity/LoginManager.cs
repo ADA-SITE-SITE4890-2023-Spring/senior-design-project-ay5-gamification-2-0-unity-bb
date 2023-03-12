@@ -19,9 +19,6 @@ public class LoginManager : MonoBehaviour
     
     public void Start()
     {
-        username = "";
-        password = "";
-
         GameObject loginButtonObj = GameObject.Find("LoginButton"); 
         Button loginButton = loginButtonObj.GetComponent<Button>(); 
         loginButton.onClick.AddListener(Login);
