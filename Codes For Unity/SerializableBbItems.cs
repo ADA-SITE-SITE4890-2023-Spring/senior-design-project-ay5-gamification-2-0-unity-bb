@@ -193,7 +193,7 @@ public class AttendanceList
     public List<Attendance> results;
 }
 
-[Serializable]
+[System.Serializable]
 public class CalendarEvent
 {
     public string id;
@@ -209,4 +209,10 @@ public class CalendarEvent
     public string color;
     public bool disableResizing;
     public string createdByUserId;
+}
+
+[System.Serializable]
+public class CalendarList
+{
+    public List<CalendarEvent> results;
 }
