@@ -1,0 +1,14 @@
+<linker>
+	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="APIManager">
+			<method name="GetAuthorizationCode"/>
+		</type>
+		<type fullname="PlayerController">
+			<method name="LogIn"/>
+			<method name="nextAnnouncement"/>
+			<method name="nextAssignment"/>
+			<method name="previousAnnouncement"/>
+			<method name="previousAssignment"/>
+		</type>
+	</assembly>
+</linker>
