@@ -12,9 +12,8 @@
     <p>Once you have Unity and Blackboard set up, you can download the Unity package from the releases section of this repository. The package contains all the necessary scripts and assets to get started with integrating Unity and Blackboard.</p>
     <h2>Usage</h2>
     <p>To use the Unity-Blackboard integration package, simply import it into your Unity project. You can then create your own games or modify the included example game to suit your needs.</p>
-    <p>Once your game is complete, you can export it as a Blackboard package and import it into your Blackboard course. Students can then play the game directly from Blackboard and their progress will be tracked and monitored by teachers.</p>
-    <h2>Contributing</h2>
-    <p>If you would like to contribute to this project, feel free to submit a pull request. We welcome contributions of all types, including bug fixes, new features, and documentation improvements.</p>
+    <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
+    
     <h2>Resources</h2>
     <ul>
       <li><a href="https://unity.com/" target="_blank">Unity website</a></li>
