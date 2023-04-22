@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Unity-Blackboard Integration</title>
+   
   </head>
   <body>
     <h1>Unity-Blackboard Integration</h1>
