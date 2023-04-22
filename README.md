@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>Unity-Blackboard Integration</h1>
-    <p>This project provides a way to integrate Unity game engine with Blackboard LMS, allowing game developers to create games that can be imported into Blackboard and used as educational tools for students. With this integration, students can play games directly from Blackboard and their progress can be tracked and monitored by teachers.</p>
+    <p>This project provides a way to integrate Unity game engine with Blackboard LMS, allowing game developers to create games that can be imported into Blackboard and used as educational tools for students. With this integration, students can play games and their progress can be tracked and monitored by teachers from Blackboard.</p>
     <h2>Getting Started</h2>
     <p>To get started with this project, you will need to have Unity installed on your computer. You can download Unity from the official website <a href="https://unity.com/">here</a>.</p>
     <p>You will also need to have access to Blackboard LMS. You can learn more about Blackboard and how to get started with it on their website <a href="https://www.blackboard.com/">here</a>.</p>
