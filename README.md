@@ -13,7 +13,6 @@
     <h2>Usage</h2>
     <p>To use the Unity-Blackboard integration package, simply import it into your Unity project. You can then create your own games or modify the included example game to suit your needs.</p>
     <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
-    
     <h2>Resources</h2>
     <ul>
       <li><a href="https://unity.com/" target="_blank">Unity website</a></li>
