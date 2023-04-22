@@ -17,15 +17,10 @@
     <p>If you would like to contribute to this project, feel free to submit a pull request. We welcome contributions of all types, including bug fixes, new features, and documentation improvements.</p>
     <h2>Resources</h2>
     <ul>
-      <ul>
-  <li><a href="https://unity.com/" target="_blank">Unity website</a></li>
-  <li><a href="https://www.blackboard.com/" target="_blank">Blackboard website</a></li>
-  <li><a href="https://assetstore.unity.com/" target="_blank">Unity Asset Store</a></li>
-  <li><a href="https://community.blackboard.com/community/developers" target="_blank">Blackboard Developer Community</a></li>
-</ul>
-
+      <li><a href="https://unity.com/" target="_blank">Unity website</a></li>
+      <li><a href="https://www.blackboard.com/" target="_blank">Blackboard website</a></li>
+      <li><a href="https://assetstore.unity.com/" target="_blank">Unity Asset Store</a></li>
+      <li><a href="https://community.blackboard.com/community/developers" target="_blank">Blackboard Developer Community</a></li>
     </ul>
-    <h2>License</h2>
-    <p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
   </body>
 </html>
