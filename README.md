@@ -26,12 +26,9 @@
     </ul>
     <h3>Steps to import and build and run Demo in your computer</h3>
     <ol>
-      <li>Download our package into your computer.</li>
-      <li></li>
+      <li>Download our package into your computer and extract it.</li>
+      <li>Open Unity Hub and then choose the package. ![image](https://user-images.githubusercontent.com/77734140/235363803-c3778926-9dc6-4c0e-b988-96b3bbdbbf4c.png)</li>
     </ol>
-    <p>To use the Unity-Blackboard integration package, simply import it into your Unity project.</p> 
-    <p>You can then create your own games or modify the included example game to suit your needs.</p>
-    <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
     <h2>Resources</h2>
     <ul>
       <li><a href="https://unity.com/" target="_blank">Unity website</a></li>
