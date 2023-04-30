@@ -19,7 +19,8 @@
     <p>You can get access to these parts by contacting the IT Help Desk of the University.</p>
     <p>In our project, our university built a sandbox for us and all testing was conducted within the given sandbox.</p>
     <h2>Usage</h2>
-    <p>To use the Unity-Blackboard integration package, simply import it into your Unity project. You can then create your own games or modify the included example game to suit your needs.</p>
+    <p>To use the Unity-Blackboard integration package, simply import it into your Unity project.</p> 
+    <p>You can then create your own games or modify the included example game to suit your needs.</p>
     <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
     <h2>Resources</h2>
     <ul>
