@@ -22,9 +22,13 @@
     <h3>Folders</h3>
     <ul>
       <li>APIPackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
-      <li>Environment - is for scripts that were only used for Game Objects that are inside final version.</li>
       <li>Final Version - is our demo game that demonstrates the connection between Unity and Blackboard.</li>
     </ul>
+    <h3>Steps to import and build and run Demo in your computer</h3>
+    <ol>
+      <li>Download our package into your computer.</li>
+      <li></li>
+    </ol>
     <p>To use the Unity-Blackboard integration package, simply import it into your Unity project.</p> 
     <p>You can then create your own games or modify the included example game to suit your needs.</p>
     <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
