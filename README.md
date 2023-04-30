@@ -9,15 +9,15 @@
     <h2>Getting Started</h2>
     <p>To get started with this project, you will need to have Unity installed on your computer. You can download Unity from the official website <a href="https://unity.com/" target="_blank">here</a>.</p>
     <p>You will also need to have access to Blackboard LMS. You can learn more about Blackboard and how to get started with it on their website <a href="https://www.blackboard.com/" target="_blank">here</a>.</p>
-    <p>In the Blackboard section, you will need access to:</p>
+    <h2>Blackboard Access</h2>
+    <p>To access the Blackboard part of this project, you will need to have the following information:</p>
     <ul>
-       <li>URL: <em>nameofuniversity.blackboard.com</em> (Example)</li>
-       <li>Application Key (Username): <em>fa5233df-5c24-49bq-aa0b-a37fesdyeb0e</em> (Example)</li>
-       <li>Secret (Password): <em>nKJvFEVmJTjDFgIBev17DefKO4RY0a3j</em> (Example)</li>
+      <li>URL: <a href="[nameofuniversity.blackboard.com]">nameofuniversity.blackboard.com</a> (example)</li>
+      <li>Application Key (Username): <code>[fa5233df-5c24-49bq-aa0b-a37fesdyeb0e]</code> (example)</li>
+      <li>Secret (Password): <code>[nKJvFEVmJTjDFgIBev17DefKO4RY0a3j]</code> (example)</li>
     </ul>
-    <p>You can obtain access to these parts by contacting the IT Help Desk of your university.</p>
-    <p>In our project, our university build the sandbox for us and all testing was conducted within the given sandbox.</p>
-    <p>Once you have Unity and Blackboard set up, you can download the Unity package from the releases section of this repository. The package contains all the necessary scripts and assets to get started with integrating Unity and Blackboard.</p>
+    <p>You can get access to these parts by contacting the IT Help Desk of the University.</p>
+    <p>In our project, our university even built a sandbox for us and all the tests had been done on the given sandbox.</p>
     <h2>Usage</h2>
     <p>To use the Unity-Blackboard integration package, simply import it into your Unity project. You can then create your own games or modify the included example game to suit your needs.</p>
     <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
