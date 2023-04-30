@@ -16,9 +16,8 @@
        <li>Secret (Password): <em>nKJvFEVmJTjDFgIBev17DefKO4RY0a3j</em> (Example)</li>
     </ul>
     <p>You can obtain access to these parts by contacting the IT Help Desk of your university.</p>
-    <p>Our project utilized a sandbox provided by our university, and all testing was conducted within the given sandbox.</p>
+    <p>In our project, our university build the sandbox for us and all testing was conducted within the given sandbox.</p>
     <p>Once you have Unity and Blackboard set up, you can download the Unity package from the releases section of this repository. The package contains all the necessary scripts and assets to get started with integrating Unity and Blackboard.</p>
-    
     <h2>Usage</h2>
     <p>To use the Unity-Blackboard integration package, simply import it into your Unity project. You can then create your own games or modify the included example game to suit your needs.</p>
     <p>Students can then play the game and their progress will be tracked and monitored by teachers from Blackboard.</p>
