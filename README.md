@@ -40,7 +40,7 @@
     </ol>
     <h3>Run Demo Game</h3>
     <ol>
-      <li>Open .sln file (you can find it inside the folder that you built).</li>
+      <li>Open .sln file and open it in Visual Studio 2022 (you can find it inside the folder that you built).</li>
       <li>Click local machine on the upper middle side of the screen (if not, then you can change it into local machine).</li>
       <li>You are good to go.</li>
     </ol>
