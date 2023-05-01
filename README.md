@@ -28,7 +28,7 @@
       <li>APIPackage and IntegrationPackage.unitypackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
       <li>Final Version - is our demo game that demonstrates the connection between Unity and Blackboard.</li>
     </ul>
-    <h3>Steps to import and build Demo into your computer</h3>
+    <h3>Steps to import and build Demo Game into your computer</h3>
     <ol>
       <li>Download our zip file into your computer and extract it.</li>
       <li>Open Unity Hub and then click <b>OPEN</b> button from the top right side of the application.</li>
@@ -40,8 +40,8 @@
     </ol>
     <h3>Run Demo Game</h3>
     <ol>
-      <li>Open .sln file(you can find it inside the folder that you built).</li>
-      <li>Click local machine on the upper middle side of the screen(if not, then you can change it into local machine).</li>
+      <li>Open .sln file (you can find it inside the folder that you built).</li>
+      <li>Click local machine on the upper middle side of the screen (if not, then you can change it into local machine).</li>
       <li>You are good to go.</li>
     </ol>
     <h2>Resources</h2>
