@@ -21,18 +21,22 @@
     <h2>Unity</h2>
     <p>During the project 2021.3.15f1 version of Unity and Visual Studio 2022 were used.</p>
     <p>The project was designed in UWP (Universal Windows Platform).</p>
-    <p>Thus, when you want to build it please switch it to UWP and then choose <b>Development Build</b> and <b>Script Debugging</b> then build it.</p>
+    <p>Thus, when you want to build it please switch it to UWP.</p>
     <h2>Usage</h2>
     <h3>Folders</h3>
     <ul>
-      <li>APIPackage and IntegratingPackage.unitypackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
+      <li>APIPackage and IntegrationPackage.unitypackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
       <li>Final Version - is our demo game that demonstrates the connection between Unity and Blackboard.</li>
     </ul>
     <h3>Steps to import and build and run Demo in your computer</h3>
     <ol>
-      <li>Download our package into your computer and extract it.</li>
+      <li>Download our zip file into your computer and extract it.</li>
       <li>Open Unity Hub and then click <b>OPEN</b> button from the top right side of the application.</li>
-      <li>Choose the package.</li>
+      <li>Select Final Version folder.</li>
+      <li>Click on Scenes folder and double click on Level1.</li>
+      <li>Go to File> Build Settings> Universal Windows Platform.</li>
+      <li>Click Development Build and Script Debugging.</li>
+      <li>Build.</li>
     </ol>
     <h2>Resources</h2>
     <ul>
