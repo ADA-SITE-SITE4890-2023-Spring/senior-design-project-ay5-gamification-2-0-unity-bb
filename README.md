@@ -18,10 +18,10 @@
     </ul>
     <p>You can get an access to mentioned information above by contacting the IT Help Desk of the University.</p>
     <p>In our project, our university built a sandbox for us and all testing was conducted within the given sandbox.</p>
-    <h2>Usage</h2>
-    <h3>Unity</h3>
+    <h2>Unity</h2>
     <p>During the project 2021.3.15f1 version of Unity was used.</p>
-    <p>The project was designed in UWP (Universal Windows Platform).</p>
+    <p>The project was designed in UWP (Universal Windows Platform). Thus, when you want to build it please switch it to UWP and then choose debug and ... then build it.</p>
+    <h2>Usage</h2>
     <h3>Folders</h3>
     <ul>
       <li>APIPackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
