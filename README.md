@@ -25,7 +25,7 @@
     <h2>Usage</h2>
     <h3>Folders</h3>
     <ul>
-      <li>APIPackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
+      <li>APIPackage and IntegratingPackage.unitypackage - is our "pure" package where you will get all the available API and can build your own game from scratch by using scripts inside the folder.</li>
       <li>Final Version - is our demo game that demonstrates the connection between Unity and Blackboard.</li>
     </ul>
     <h3>Steps to import and build and run Demo in your computer</h3>
