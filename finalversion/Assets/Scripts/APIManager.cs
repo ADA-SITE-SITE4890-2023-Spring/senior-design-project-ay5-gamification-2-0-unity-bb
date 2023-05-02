@@ -313,7 +313,7 @@ public class APIManager : MonoBehaviour
     }
 
     // Download attachment : API - content file attachments
-    public async void DownloadAttachmentAsync(string courseId, string contentId, string attachmentId, string access_token)
+    public async void DownloadAttachmentAsync(string courseId, string contentId, string attachmentId, string access_token, string name)
     {
         using var www = UnityWebRequest.Get($"{BASE_URL}/learn/api/public/v1/courses/courseId:" + courseId + "/contents/" + contentId + "/attachments/" + attachmentId + "/download");
         www.SetRequestHeader("Authorization", $"Bearer {access_token}");
@@ -334,7 +334,7 @@ public class APIManager : MonoBehaviour
 
         byte[] pdfBytes = www.downloadHandler.data;
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string filePath = Path.Combine(Application.persistentDataPath, "File" + PlayerController.Instance.assignmentNumber + ".pdf");
+        string filePath = Path.Combine(Application.persistentDataPath, name + PlayerController.Instance.assignmentNumber + ".pdf");
 
         try
         {
@@ -752,7 +752,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    public async void CreateMessage(string subject, string messageBody, List<Users> recipients, string access_token)
+    public async void CreateMessage(string subject, string messageBody, List<Users> recipients, string access_token, string courseId)
     {
         List<string> recipientIds = new List<string>();
         foreach (var recipient in recipients)
@@ -761,7 +761,7 @@ public class APIManager : MonoBehaviour
         }
 
         var client = new HttpClient();
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://ada-staging.blackboard.com//learn/api/public/v1/courses/courseId:GAME20_1/messages");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{BASE_URL}/learn/api/public/v1/courses/courseId:" + courseId + "/messages"); //https://ada-staging.blackboard.com//learn/api/public/v1/courses/courseId:GAME20_1/messages
         request.Headers.Add("Authorization", "Bearer " + access_token);
         var content = new StringContent($@"{{
       ""id"": ""pari"",
