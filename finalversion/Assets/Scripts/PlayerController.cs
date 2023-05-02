@@ -148,10 +148,11 @@ public class PlayerController : MonoBehaviour
                             }
                             else
                             {
-                                courseContent = await APIManager.Instance.GetCourseContentAsync(currentRoom, GameManager.Instance.authContext.access_token);
+                                //courseContent = await APIManager.Instance.GetCourseContentAsync(currentRoom, GameManager.Instance.authContext.access_token);
                             }
                         }
                     }
+                    courseContent = await APIManager.Instance.GetCourseContentAsync(currentRoom, GameManager.Instance.authContext.access_token);
 
                     List<Content> weeks = await APIManager.Instance.GetContentChildrenAsync(currentRoom, courseContent.id, GameManager.Instance.authContext.access_token);
 
