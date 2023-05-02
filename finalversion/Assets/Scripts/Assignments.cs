@@ -21,7 +21,7 @@ public class Assignments : MonoBehaviour, IPointerClickHandler
                 File assignment = await APIManager.Instance.GetContentAttachmentsAsync(PlayerController.Instance.currentRoom, GameManager.Instance.assignmentDictionary[i].Keys.FirstOrDefault(), GameManager.Instance.authContext.access_token);
                 if (assignment != null)
                 {
-                    APIManager.Instance.DownloadAttachmentAsync(PlayerController.Instance.currentRoom, GameManager.Instance.assignmentDictionary[i].Keys.FirstOrDefault(), assignment.id, GameManager.Instance.authContext.access_token);
+                    APIManager.Instance.DownloadAttachmentAsync(PlayerController.Instance.currentRoom, GameManager.Instance.assignmentDictionary[i].Keys.FirstOrDefault(), assignment.id, GameManager.Instance.authContext.access_token, "assignment" + assignment.id);
                 }
                 else
                 {
